@@ -155,10 +155,12 @@
 
 
 proc/cmd_admin_mute(mob/M as mob, mute_type, automute = 0)
+	/*
 	if(automute)
 		if(!config.automute_on)
 			return
-	else
+	*/
+	if(!automute)
 		if(!usr || !usr.client)
 			return
 		if(!usr.client.holder)
@@ -169,8 +171,6 @@ proc/cmd_admin_mute(mob/M as mob, mute_type, automute = 0)
 		if(M.client.holder)
 			usr << "<font color='red'>Error: cmd_admin_mute: You cannot mute an admin/mod.</font>"
 	if(!M.client)
-		return
-	if(M.client.holder)
 		return
 
 	var/muteunmute
@@ -191,12 +191,15 @@ proc/cmd_admin_mute(mob/M as mob, mute_type, automute = 0)
 		log_admin("SPAM AUTOMUTE: [muteunmute] [key_name(M)] from [mute_string]")
 		message_admins("SPAM AUTOMUTE: [muteunmute] [key_name_admin(M)] from [mute_string].", 1)
 		M << "<span class='alert'>You have been [muteunmute] from [mute_string] by the SPAM AUTOMUTE system. Contact an admin.</span>"
-		feedback_add_details("admin_verb","AUTOMUTE") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+		feedback_add_details("admin_verb","AUTOMUTE")
+		for(var/client/C in clients)
+			C << "<font color='blue'><b>[C.key]</b> [pick("решил поигратьс&#255; с текстовыми макросами","нажал кнопку изнасиловани&#255; игроков в глаза","неудовлетворительно прошел тест на IQ")] и автоматически получил резиновым дрыном по губам.</font>"
 		return
 
 	if(M.client.prefs.muted & mute_type)
 		muteunmute = "unmuted"
 		M.client.prefs.muted &= ~mute_type
+
 	else
 		muteunmute = "muted"
 		M.client.prefs.muted |= mute_type

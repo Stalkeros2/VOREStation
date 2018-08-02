@@ -26,9 +26,9 @@
 		if(!config.dooc_allowed && (mob.stat == DEAD))
 			usr << "<span class='danger'>OOC for dead mobs has been turned off.</span>"
 			return
-		if(prefs.muted & MUTE_OOC)
+		/*if(prefs.muted & MUTE_OOC)
 			src << "<span class='danger'>You cannot use OOC (muted).</span>"
-			return
+			return*/
 		if(findtext(msg, "byond://"))
 			src << "<B>Advertising other servers is not allowed.</B>"
 			log_admin("[key_name(src)] has attempted to advertise in OOC: [msg]")
@@ -37,6 +37,9 @@
 		/*if(vote && vote.mode)
 			src << "<span class='danger'>OOC is not allowed during voting.</span>"
 			return*/
+	if(prefs.muted & MUTE_OOC)
+		src << "<span class='danger'>You cannot use OOC (muted).</span>"
+		return
 
 	log_ooc(msg, src)
 
@@ -102,15 +105,14 @@
 		if(!config.dooc_allowed && (mob.stat == DEAD))
 			usr << "<span class='danger'>OOC for dead mobs has been turned off.</span>"
 			return
-		if(prefs.muted & MUTE_OOC)
-			src << "<span class='danger'>You cannot use OOC (muted).</span>"
-			return
 		if(findtext(msg, "byond://"))
 			src << "<B>Advertising other servers is not allowed.</B>"
 			log_admin("[key_name(src)] has attempted to advertise in OOC: [msg]")
 			message_admins("[key_name_admin(src)] has attempted to advertise in OOC: [msg]")
 			return
-
+	if(prefs.muted & MUTE_OOC)
+		src << "<span class='danger'>You cannot use OOC (muted).</span>"
+		return
 	log_looc(msg,src)
 
 	if(msg)
