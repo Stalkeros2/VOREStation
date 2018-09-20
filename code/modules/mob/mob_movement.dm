@@ -285,7 +285,8 @@
 		var/tickcomp = 0 //moved this out here so we can use it for vehicles
 		if(config.Tickcomp)
 			// move_delay -= 1.3 //~added to the tickcomp calculation below
-			tickcomp = ((1/(world.tick_lag))*1.3) - 1.3
+			// to set tickcomp ON to default just paste ((1/(world.tick_lag))*1.3) - 1.3 instead of 0 below
+			tickcomp = 0
 			move_delay = move_delay + tickcomp
 
 		if(istype(mob.buckled))// VOREStation Removal - , /obj/vehicle))

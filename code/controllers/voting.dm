@@ -127,15 +127,18 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 				round_voters += key // Keep track of who voted for the winning round.
 		if(mode != VOTE_GAMEMODE || . == "Extended" || ticker.hide_mode == 0) // Announce Extended gamemode, but not other gamemodes
 			text += "<b>Vote Result: [mode == VOTE_GAMEMODE ? gamemode_names[.] : .]</b>"
+			world << sound('sound/ambience/endvoteZ.ogg', repeat = 0, wait = 0, volume = 30, channel = 3) // endvote sound, delete this string if you don't need this
 		else
 			text += "<b>The vote has ended.</b>"
 
 	else
 		text += "<b>Vote Result: Inconclusive - No Votes!</b>"
+		world << sound('sound/ambience/endvoteZ.ogg', repeat = 0, wait = 0, volume = 30, channel = 3) // endvote sound, delete this string if you don't need this
 		if(mode == VOTE_ADD_ANTAGONIST)
 			antag_add_failed = 1
 	log_vote(text)
 	world << "<font color='purple'>[text]</font>"
+	world << sound('sound/ambience/endvoteZ.ogg', repeat = 0, wait = 0, volume = 30, channel = 3) // endvote sound, delete this string if you don't need this
 
 /datum/controller/vote/proc/result()
 	. = announce_result()
@@ -144,6 +147,7 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 		switch(mode)
 			if(VOTE_RESTART)
 				if(. == "Restart Round")
+					world << sound('sound/ambience/endvote.ogg', repeat = 0, wait = 0, volume = 30, channel = 3) // restart endvote sound, delete this string if you don't need this
 					restart = 1
 			if(VOTE_GAMEMODE)
 				if(master_mode != .)
@@ -154,6 +158,7 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 						master_mode = .
 			if(VOTE_CREW_TRANSFER)
 				if(. == "Initiate Crew Transfer")
+					world << sound('sound/ambience/voteMASLINA.ogg', repeat = 0, wait = 0, volume = 30, channel = 3) //  crew transfer endvote sound, delete this string if you don't need this
 					init_shift_change(null, 1)
 			if(VOTE_ADD_ANTAGONIST)
 				if(isnull(.) || . == "None")
@@ -199,6 +204,7 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 		switch(vote_type)
 			if(VOTE_RESTART)
 				choices.Add("Restart Round", "Continue Playing")
+				world << sound('sound/ambience/voteRESTART.ogg', repeat = 0, wait = 0, volume = 30, channel = 3) // restart vote sound, delete this string if you don't need this
 			if(VOTE_GAMEMODE)
 				if(ticker.current_state >= GAME_STATE_SETTING_UP)
 					return 0
@@ -210,6 +216,7 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 					gamemode_names[M.config_tag] = capitalize(M.name) //It's ugly to put this here but it works
 					additional_text.Add("<td align = 'center'>[M.required_players]</td>")
 				gamemode_names["secret"] = "Secret"
+				world << sound('sound/ambience/voteMODE.ogg', repeat = 0, wait = 0, volume = 30, channel = 3) // gamemode  vote sound, delete this string if you don't need this
 			if(VOTE_CREW_TRANSFER)
 				if(!check_rights(R_ADMIN|R_MOD, 0)) // The gods care not for the affairs of the mortals
 					if(get_security_level() == "red" || get_security_level() == "delta")
@@ -220,6 +227,7 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 						return 0
 				question = "End the shift?"
 				choices.Add("Initiate Crew Transfer", "Continue The Round")
+				world << sound('sound/ambience/voteSHIFT.ogg', repeat = 0, wait = 0, volume = 30, channel = 3) // transfer vote sound, delete this string if you don't need this
 			if(VOTE_ADD_ANTAGONIST)
 				if(!config.allow_extra_antags || ticker.current_state >= GAME_STATE_SETTING_UP)
 					return 0
@@ -228,8 +236,9 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 					if(!(antag.id in additional_antag_types) && antag.is_votable())
 						choices.Add(antag.role_text)
 				choices.Add("None")
+				world << sound('sound/ambience/voteDJ.ogg', repeat = 0, wait = 0, volume = 30, channel = 3)
 			if(VOTE_CUSTOM)
-				question = cp1251_to_utf8(rhtml_encode(input(usr, "What is the vote for?") as text|null))
+				question = cp1251_to_utf8(rhtml_encode(input(usr, "What is the vote for?") as text|null)) // antag  vote sound, delete this string if you don't need this
 				if(!question)
 					return 0
 				for(var/i = 1 to 10)
@@ -250,9 +259,12 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 		log_vote(text)
 
 		world << "<font color='purple'><b>[text]</b>\nType <b>vote</b> or click <a href='?src=\ref[src]'>here</a> to place your votes.\nYou have [config.vote_period / 10] seconds to vote.</font>"
+		/*
 		if(vote_type == VOTE_CREW_TRANSFER || vote_type == VOTE_GAMEMODE || vote_type == VOTE_CUSTOM)
-			world << sound('sound/ambience/voteDJ.ogg', repeat = 0, wait = 0, volume = 50, channel = 3)
-
+			world << sound('sound/ambience/alarm4.ogg', repeat = 0, wait = 0, volume = 50, channel = 3)
+		*/
+		if(vote_type == VOTE_CUSTOM)
+			world << sound('sound/ambience/voteCUSTOM.ogg', repeat = 0, wait = 0, volume = 30, channel = 3) // custom vote sound
 		if(mode == VOTE_GAMEMODE && round_progressing)
 			round_progressing = 0
 			world << "<font color='red'><b>Round start has been delayed.</b></font>"
