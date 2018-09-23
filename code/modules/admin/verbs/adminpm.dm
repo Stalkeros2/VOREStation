@@ -99,7 +99,7 @@
 	//play the recieving admin the adminhelp sound (if they have them enabled)
 	//non-admins shouldn't be able to disable this
 	if(C.is_preference_enabled(/datum/client_preference/holder/play_adminhelp_ping))
-		C << 'sound/effects/adminhelp.ogg'
+		C << 'sound/effects/Adminhelp_reply.ogg'
 
 	log_adminpm(msg,src,C)
 	send2adminirc("Reply: [key_name(src)]->[key_name(C)]: [rhtml_decode(msg)]")
