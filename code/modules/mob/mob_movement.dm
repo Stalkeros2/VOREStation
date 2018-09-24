@@ -299,8 +299,8 @@
 			return mob.buckled.relaymove(mob,direct)
 
 		if(istype(mob.machine, /obj/machinery))
-			if(mob.machine.relaymove(mob,direct))tickcomp = 0
-
+			if(mob.machine.relaymove(mob,direct))
+				tickcomp = 0
 				return
 
 		if(mob.pulledby || mob.buckled) // Wheelchair driving!

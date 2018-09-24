@@ -102,7 +102,7 @@ var/list/adminhelp_ignored_words = list("unknown","the","a","an","of","monkey","
 				admin_number_afk++
 			X << msg
 			if(X.is_preference_enabled(/datum/client_preference/holder/play_adminhelp_ping))
-				X << 'sound/effects/adminhelp.ogg'
+				X << 'sound/effects/Adminhelp_request.ogg'
 
 	//show it to the person adminhelping too
 	src << "<font color='blue'>PM to-<b>Staff </b>: [original_msg]</font>"
