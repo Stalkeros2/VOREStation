@@ -57,8 +57,8 @@
 	human_mob_list -= src
 	for(var/organ in organs)
 		qdel(organ)
-	qdel_null(nif)	//VOREStation Add
-	qdel_null_list(vore_organs) //VOREStation Add
+	QDEL_NULL(nif)	//VOREStation Add
+	QDEL_NULL_LIST(vore_organs) //VOREStation Add
 	return ..()
 
 /mob/living/carbon/human/Stat()
@@ -1459,6 +1459,15 @@
 
 	maxHealth = species.total_health
 
+	if(LAZYLEN(descriptors))
+		descriptors = null
+
+	if(LAZYLEN(species.descriptors))
+		descriptors = list()
+		for(var/desctype in species.descriptors)
+			var/datum/mob_descriptor.descriptor = species.descriptors[desctype]
+			descriptors[desctype] = descriptor.default_value
+
 	spawn(0)
 		if(regen_icons) regenerate_icons()
 		make_blood()
@@ -1472,11 +1481,7 @@
 		species.update_attack_types() //VOREStation Edit - Required for any trait that updates unarmed_types in setup.
 
 	// Rebuild the HUD. If they aren't logged in then login() should reinstantiate it for them.
-	if(client && client.screen)
-		client.screen.len = null
-		if(hud_used)
-			qdel(hud_used)
-		hud_used = new /datum/hud(src)
+	update_hud()
 
 	//A slew of bits that may be affected by our species change
 	regenerate_icons()
@@ -1850,9 +1855,8 @@
 
 /mob/living/carbon/human/proc/update_icon_special() //For things such as teshari hiding and whatnot.
 	if(status_flags & HIDING) // Hiding? Carry on.
-		if(stat == DEAD || paralysis || weakened || stunned || restrained()) //stunned/knocked down by something that isn't the rest verb? Note: This was tried with INCAPACITATION_STUNNED, but that refused to work.
-			reset_plane_and_layer()
-			status_flags &= ~HIDING
+		if(stat == DEAD || paralysis || weakened || stunned || restrained() || buckled || LAZYLEN(grabbed_by) || has_buckled_mobs()) //stunned/knocked down by something that isn't the rest verb? Note: This was tried with INCAPACITATION_STUNNED, but that refused to work. //VORE EDIT: Check for has_buckled_mobs() (taur riding)
+			reveal(null)
 		else
 			layer = HIDING_LAYER
 
