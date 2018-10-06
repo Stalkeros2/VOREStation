@@ -434,7 +434,7 @@ var/list/civilian_cartridges = list(
 		for(var/S in supply_controller.shoppinglist)
 			var/datum/supply_order/SO = S
 
-			supplyOrderData[++supplyOrderData.len] = list("Number" = SO.ordernum, "Name" = html_encode(SO.object.name), "ApprovedBy" = SO.ordered_by, "Comment" = html_encode(SO.comment))
+			supplyOrderData[++supplyOrderData.len] = list("Number" = SO.ordernum, "Name" = rhtml_encode(SO.object.name), "ApprovedBy" = SO.ordered_by, "Comment" = rhtml_encode(SO.comment))
 		if(!supplyOrderData.len)
 			supplyOrderData[++supplyOrderData.len] = list("Number" = null, "Name" = null, "OrderedBy"=null)
 
@@ -449,7 +449,7 @@ var/list/civilian_cartridges = list(
 				continue
 
 			requestCount++
-			requestData[++requestData.len] = list("Number" = SO.ordernum, "Name" = html_encode(SO.object.name), "OrderedBy" = SO.ordered_by, "Comment" = html_encode(SO.comment))
+			requestData[++requestData.len] = list("Number" = SO.ordernum, "Name" = rhtml_encode(SO.object.name), "OrderedBy" = SO.ordered_by, "Comment" = rhtml_encode(SO.comment))
 		if(!requestData.len)
 			requestData[++requestData.len] = list("Number" = null, "Name" = null, "orderedBy" = null, "Comment" = null)
 
@@ -477,7 +477,7 @@ var/list/civilian_cartridges = list(
 				if(ml.z != cl.z)
 					continue
 				var/direction = get_dir(src, M)
-				MopData[++MopData.len] = list ("x" = ml.x, "y" = ml.y, "dir" = uppertext(dir2text(direction)), "status" = M.reagents.total_volume ? "Wet" : "Dry")
+				MopData[++MopData.len] = list ("x" = ml.x, "y" = ml.y, "dir" = ruppertext(dir2text(direction)), "status" = M.reagents.total_volume ? "Wet" : "Dry")
 
 		if(!MopData.len)
 			MopData[++MopData.len] = list("x" = 0, "y" = 0, dir=null, status = null)
@@ -490,7 +490,7 @@ var/list/civilian_cartridges = list(
 				if(bl.z != cl.z)
 					continue
 				var/direction = get_dir(src,B)
-				BucketData[++BucketData.len] = list ("x" = bl.x, "y" = bl.y, "dir" = uppertext(dir2text(direction)), "status" = B.reagents.total_volume/100)
+				BucketData[++BucketData.len] = list ("x" = bl.x, "y" = bl.y, "dir" = ruppertext(dir2text(direction)), "status" = B.reagents.total_volume/100)
 
 		if(!BucketData.len)
 			BucketData[++BucketData.len] = list("x" = 0, "y" = 0, dir=null, status = null)
@@ -502,7 +502,7 @@ var/list/civilian_cartridges = list(
 				if(bl.z != cl.z)
 					continue
 				var/direction = get_dir(src,B)
-				CbotData[++CbotData.len] = list("x" = bl.x, "y" = bl.y, "dir" = uppertext(dir2text(direction)), "status" = B.on ? "Online" : "Offline")
+				CbotData[++CbotData.len] = list("x" = bl.x, "y" = bl.y, "dir" = ruppertext(dir2text(direction)), "status" = B.on ? "Online" : "Offline")
 
 
 		if(!CbotData.len)
@@ -514,7 +514,7 @@ var/list/civilian_cartridges = list(
 				if(bl.z != cl.z)
 					continue
 				var/direction = get_dir(src,B)
-				CartData[++CartData.len] = list("x" = bl.x, "y" = bl.y, "dir" = uppertext(dir2text(direction)), "status" = B.reagents.total_volume/100)
+				CartData[++CartData.len] = list("x" = bl.x, "y" = bl.y, "dir" = ruppertext(dir2text(direction)), "status" = B.reagents.total_volume/100)
 		if(!CartData.len)
 			CartData[++CartData.len] = list("x" = 0, "y" = 0, dir=null, status = null)
 
