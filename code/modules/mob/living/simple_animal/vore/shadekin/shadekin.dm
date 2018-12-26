@@ -6,6 +6,7 @@
 	icon_living = "map_example"
 	faction = "shadekin"
 	ui_icons = 'icons/mob/shadekin_hud.dmi'
+	intelligence_level = SA_HUMANOID
 
 	maxHealth = 200
 	health = 200
@@ -241,7 +242,7 @@
 	if(specific_targets && isliving(A)) //Healing!
 		var/mob/living/L = A
 		var/health_percent = (L.health/L.maxHealth)*100
-		if(health_percent <= 50)
+		if(health_percent <= 50 && will_eat(A))
 			return A
 	. = ..()
 
@@ -443,4 +444,4 @@
 	exclaim_verb = "mars"
 	key = "m"
 	machine_understands = 0
-	flags = RESTRICTED | HIVEMIND
+	flags = WHITELISTED | HIVEMIND
