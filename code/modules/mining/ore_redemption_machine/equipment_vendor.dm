@@ -15,7 +15,7 @@
 		new /datum/data/mining_equipment("1 Marker Beacon",				/obj/item/stack/marker_beacon,										10),
 		new /datum/data/mining_equipment("10 Marker Beacons",			/obj/item/stack/marker_beacon/ten,									100),
 		new /datum/data/mining_equipment("30 Marker Beacons",			/obj/item/stack/marker_beacon/thirty,                                                 300),
-		new /datum/data/mining_equipment("Whiskey",						/obj/item/weapon/reagent_containers/food/drinks/bottle/ale,		125),
+		new /datum/data/mining_equipment("Ale",						/obj/item/weapon/reagent_containers/food/drinks/bottle/ale,		125),
 		new /datum/data/mining_equipment("Whiskey",						/obj/item/weapon/reagent_containers/food/drinks/bottle/whiskey,		125),
 		new /datum/data/mining_equipment("Cigar",						/obj/item/clothing/mask/smokable/cigarette/cigar/havana,			150),
 		new /datum/data/mining_equipment("Soap",						/obj/item/weapon/soap/nanotrasen,									200),
